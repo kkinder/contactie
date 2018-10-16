@@ -1,0 +1,30 @@
+{
+  "environments": {
+    "test": {
+      "env": {
+        "IS_TEST": "true"
+      },
+      "scripts": {
+        "test-setup": "echo hi",
+        "test": "python3 -m unittest discover tests"
+      }
+    }
+  },
+  "env": {},
+  "addons": [
+    {
+      "plan": "heroku-postgresql",
+      "options": {
+        "version": "10"
+      }
+    }
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
