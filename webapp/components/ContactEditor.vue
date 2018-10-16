@@ -32,12 +32,11 @@
                 <el-form-item
                         v-for="address, index in contactForm.addresses"
                         label=""
-                        :key="address">
+                        :key="index">
                     <el-input :rows="4" :value="address" type="textarea" @change="setAddress(index, $event)"
                               :placeholder="'123 Fake St\nDenver, CO\n80305\nUSA'">
-                        <el-button @click.prevent="removeAddress(index)" slot="append"
-                                   icon="el-icon-delete"></el-button>
                     </el-input>
+                    <el-button @click.prevent="removeAddress(index)" icon="el-icon-delete">Remove Address</el-button>
                 </el-form-item>
                 <el-button @click="addAddress">Add Postal Address</el-button>
             </el-card>
@@ -51,7 +50,7 @@
                         <el-form-item
                                 v-for="phone, index in contactForm.phone_numbers"
                                 label=""
-                                :key="phone">
+                                :key="index">
                             <el-input :value="phone" type="tel" @change="setPhoneNumber(index, $event)"
                                       placeholder="555-123-4567">
                                 <el-button @click.prevent="removePhoneNumber(index)" slot="append"
@@ -69,7 +68,7 @@
                         <el-form-item
                                 v-for="email, index in contactForm.email_addresses"
                                 label=""
-                                :key="email">
+                                :key="index">
                             <el-input :value="email" type="email" @change="setEmailAddress(index, $event)"
                                       placeholder="name@example.com">
                                 <el-button @click.prevent="removeEmailAddress(index)" slot="append"
