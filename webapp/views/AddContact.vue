@@ -28,8 +28,14 @@
         methods: {
             saveContact(newContact) {
                 let promise = axios.post(`/api/contact/_new`, newContact)
+                const loading = this.$loading({
+                    lock: true,
+                    text: 'Saving Contact',
+                    spinner: 'el-icon-loading',
+                });
 
                 promise = promise.then(response => {
+                    loading.close()
                     this.$notify({
                         title: 'Contact Created',
                         message: 'This contat has been successfully created.',
