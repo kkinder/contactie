@@ -12,7 +12,7 @@ python-dotenv = "*"
 falcon = "*"
 jsonschema = "*"
 whitenoise = "*"
-
+gunicorn = "*"
 
 [dev-packages]
 
