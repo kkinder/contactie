@@ -14,12 +14,9 @@ class StaticApp(whitenoise.WhiteNoise):
     def __call__(self, environ, start_response):
         path = whitenoise.base.decode_path_info(environ['PATH_INFO'])
 
-        if not path.startswith('/api/'):
-            static_file = self._get_file('/index.html')
-        else:
-            static_file = self._get_file(path)
+        static_file = self._get_file(path)
 
-        if static_file is None and path == '/':
+        if static_file is None and not path.startswith('/api/'):
             static_file = self._get_file('/index.html')
             return self.serve(static_file, environ, start_response)
         elif static_file is None:

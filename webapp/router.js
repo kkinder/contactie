@@ -22,6 +22,12 @@ export default new Router({
             path: '/contact/:contactId',
             name: 'view-contact',
             component: () => import(/* webpackChunkName: "contact" */ './views/Contact.vue')
-        }
+        },
+        {
+            path: '*',
+            name: 'view-contact',
+            component: () => import(/* webpackChunkName: "NotFound" */ './views/NotFound.vue')
+        },
+
     ]
 })
