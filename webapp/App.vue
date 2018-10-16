@@ -11,9 +11,6 @@
                 <router-view/>
             </div>
         </div>
-        <footer>
-            Follow us on Google+, it's the future!
-        </footer>
     </div>
 </template>
 <style lang="stylus">
@@ -32,17 +29,14 @@
             background #efefef
         #content
             flex 1
-    nav, footer
+    nav
         background #333333
         color white
         padding 20px
-    nav
         font-size 200%
         a:link, a:active, a:visited
             color white
             text-decoration none
-    footer
-        text-align right
 </style>
 <script>
     import ContactQuery from "./components/ContactQuery"
