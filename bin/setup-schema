@@ -6,21 +6,24 @@ To use this script, run (for production):
 
     heroku run -a APP_NAME bin/initial_setup
 """
+import os
 import pathlib
 import sys
 
 import sqlalchemy.orm
-from sqlalchemy.orm import sessionmaker
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent.parent.absolute()))
 
-from db import models
+from db import models, configure_session, Session
 
-session = sessionmaker()()
+configure_session(database_url=os.environ['DATABASE_URL'])
+session = Session()
+
+sqlalchemy.orm.configure_mappers()
+
 
 engine = session.get_bind()
 engine.execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
-sqlalchemy.orm.configure_mappers()
 models.metadata.create_all(bind=engine)
 session.commit()
 
