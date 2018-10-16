@@ -1,21 +1,39 @@
 """
 Falcon CRUD server
 """
-import os
 import pathlib
 
 import falcon
-from whitenoise import WhiteNoise
-
+import whitenoise
 
 APP_DIR = pathlib.Path(__file__).parent.absolute()
 STATIC_CONTENT_DIR = str((pathlib.Path(APP_DIR) / '..' / 'webapp-dist').absolute())
 
-#assert os.path.exists(STATIC_CONTENT_DIR)
+
+class StaticApp(whitenoise.WhiteNoise):
+    def __call__(self, environ, start_response):
+        path = whitenoise.base.decode_path_info(environ['PATH_INFO'])
+
+        if not path.startswith('/api/'):
+            static_file = self._get_file('/index.html')
+        else:
+            static_file = self._get_file(path)
+
+        if static_file is None and path == '/':
+            static_file = self._get_file('/index.html')
+            return self.serve(static_file, environ, start_response)
+        elif static_file is None:
+            return self.application(environ, start_response)
+        else:
+            return self.serve(static_file, environ, start_response)
+
+    def _get_file(self, path):
+        static_file = self.files.get(path)
+        return static_file
 
 
 def add_whitenoise(app):
-    app = WhiteNoise(app, root=STATIC_CONTENT_DIR)
+    app = StaticApp(app, root=STATIC_CONTENT_DIR)
     app.index_file = 'index.html'
     return app
 
@@ -23,12 +41,10 @@ def add_whitenoise(app):
 def get_app():
     from api_server.ContactQueryResource import ContactQueryResource
     from api_server.ContactResource import ContactResource
-    from api_server.IndexResource import IndexResource
 
     falcon_app = falcon.API()
 
     # This is safe because 'query' will never be an ID.
-    falcon_app.add_route('/', IndexResource())
     falcon_app.add_route('/api/contact', ContactQueryResource())
     falcon_app.add_route('/api/contact/{contact_id}', ContactResource())
 
