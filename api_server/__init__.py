@@ -11,7 +11,7 @@ from whitenoise import WhiteNoise
 APP_DIR = pathlib.Path(__file__).parent.absolute()
 STATIC_CONTENT_DIR = str((pathlib.Path(APP_DIR) / '..' / 'webapp-dist').absolute())
 
-assert os.path.exists(STATIC_CONTENT_DIR)
+#assert os.path.exists(STATIC_CONTENT_DIR)
 
 
 def add_whitenoise(app):
